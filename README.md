@@ -5,7 +5,7 @@ Create a rough web app that loads maps of the following formats: Shapefiles, Geo
 1. clone repo
 2. open terminal, cd into the project directory
 ```
-npm install
 cd client
+npm install
 npm start
 ```
