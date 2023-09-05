@@ -110,7 +110,7 @@ const Header: React.FC<HeaderProps> = ({ onFileUpload }) => {
                   name="file"
                   type="file"
                   onChange={handleFileChange}
-                  accept=".shp, .txt, .json "
+                  accept=".shp, .txt, .json, .zip"
                   multiple
                 />
 
