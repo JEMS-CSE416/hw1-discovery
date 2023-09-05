@@ -1,7 +1,7 @@
 import React from "react";
 
 interface DisplayMapProps {
-    fileContent: string;
+    fileContent: string | any;
 }
 
 const DisplayMap: React.FC<DisplayMapProps> = ({ fileContent }) => {
