@@ -43,16 +43,8 @@ const Header: React.FC<HeaderProps> = ({ onFileUpload }) => {
     if (file) {
       console.log("Uploading file...");
 
-      const formData = new FormData();
-      formData.append("file", file);
-
       try {
-        const res = await fetch("https://httpbin.org/post", {
-          method: "POST",
-          body: formData,
-        });
-
-        const data = await res.json();
+        const data = await file.text();
         console.log(data);
         onFileUpload(data);
       } catch (error) {
