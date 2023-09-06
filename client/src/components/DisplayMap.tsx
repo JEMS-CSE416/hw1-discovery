@@ -1,7 +1,8 @@
 import React from "react";
+import {GeoJSON} from "geojson";
 
 interface DisplayMapProps {
-    fileContent: string | any;
+    fileContent: GeoJSON;
 }
 
 const DisplayMap: React.FC<DisplayMapProps> = ({ fileContent }) => {
