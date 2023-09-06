@@ -7,6 +7,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import jemsLogo from "../JEMS.svg";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import { geoJsonConvert } from "../utils/geojson-convert";
 
 const style = {
   position: "absolute" as "absolute",
@@ -44,9 +45,9 @@ const Header: React.FC<HeaderProps> = ({ onFileUpload }) => {
       console.log("Uploading file...");
 
       try {
-        const data = await file.text();
-        console.log(data);
-        onFileUpload(data);
+        const geoJSON = await geoJsonConvert(file);
+        console.log(geoJSON);
+        onFileUpload(geoJSON);
       } catch (error) {
         console.log(error);
       }

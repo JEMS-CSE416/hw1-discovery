@@ -4,15 +4,16 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import Canvas from "./components/Canvas";
 import Header from "./components/Header";
+import {GeoJSON} from "geojson"
 
 function App() {
-  const [fileContent, setFileContent] = useState<string | any>("");
+  const [fileContent, setFileContent] = useState<GeoJSON>();
 
   useEffect(() => {
     console.log("fileContent: \n" + JSON.stringify(fileContent));
   }, [fileContent]);
 
-  const handleFileUpload = (content: string | any) => {
+  const handleFileUpload = (content: GeoJSON) => {
     setFileContent(content);
   };
 
