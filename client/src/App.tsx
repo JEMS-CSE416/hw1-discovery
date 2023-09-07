@@ -4,23 +4,26 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import Canvas from "./components/Canvas";
 import Header from "./components/Header";
-import {GeoJSON} from "geojson"
 
 function App() {
-  const [fileContent, setFileContent] = useState<GeoJSON>();
+  const [fileType, setFileType] = useState<string>("");
+  const [fileContent, setFileContent] = useState<string>();
 
-  useEffect(() => {
-    console.log("fileContent: \n" + JSON.stringify(fileContent));
-  }, [fileContent]);
+  // useEffect(() => {
+  //   console.log("fileContent: \n" + JSON.stringify(fileContent));
+  // }, [fileContent, fileType]);
 
-  const handleFileUpload = (content: GeoJSON) => {
+  const handleFileUpload = (file: string, content: string) => {
+    setFileType(file)
     setFileContent(content);
   };
 
   return (
     <div className="App">
       <Header onFileUpload={handleFileUpload} />
-      <Canvas fileContent={fileContent} />
+      <Canvas 
+        fileType={fileType}
+        fileContent={fileContent} />
     </div>
   );
 }
