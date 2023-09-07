@@ -1,22 +1,18 @@
 import React from "react";
 import DisplayMap from "./DisplayMap";
 import { GeoJSON } from "geojson";
+import { FileInfo } from "../utils/global_utils";
 
 interface CanvasProps {
-    fileType: string;
-    fileContent: string | undefined;
+  fileInfo: FileInfo;
 }
 
-const Canvas: React.FC<CanvasProps> = ({ fileType, fileContent }) => {
-    console.log(fileType);
-    console.log(fileContent);
-
+const Canvas: React.FC<CanvasProps> = ({ fileInfo }) => {
     return (
         <>
-            {fileContent !== undefined // only display render displaymap if goejson exists
+            {fileInfo.fileContent !== undefined // only display render displaymap if goejson exists
               ?<DisplayMap 
-                fileType={fileType}
-                fileContent={fileContent}/>
+                fileInfo={fileInfo}/>
               :<></>
             }
         </>
