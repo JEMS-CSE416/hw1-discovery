@@ -42,11 +42,11 @@ const DisplayMap: React.FC<DisplayMapProps> = ({ fileInfo }) => {
                 const geoJSON = JSON.parse(fileInfo.fileContent);
                 let features = geoJSON["features"];
                 return (
-                    // TODO: add one popup for the entire outline for the name of the country/data
+                    // TODO: add one popup for the entire outline for the name of the country/data; @sammi theres a prop called onEachFeature for geoJSON. you can look into that.
                     <>
                         <MapContainer center={[23.6978, 120.9605]} zoom={10} style={{ width: '100vw', height: '900px' }}>
                             <TileLayer url='https://tile.openstreetmap.org/{z}/{x}/{y}.png' attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' />
-                            <GeoJSON data={geoJSON} />
+                            <GeoJSON data={geoJSON}/>
                         </MapContainer>
                     </>
                 )
