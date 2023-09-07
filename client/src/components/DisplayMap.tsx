@@ -1,6 +1,5 @@
 import React from "react";
-import {GeoJSON} from "geojson";
-import { MapContainer, TileLayer } from 'react-leaflet'
+import { GeoJSON, MapContainer, TileLayer, Popup} from 'react-leaflet'
 import "leaflet/dist/leaflet.css"
 import ReactLeafletKml from 'react-leaflet-kml'; // react-leaflet-kml must be loaded AFTER react-leaflet
 import { FileInfo } from "../utils/global_utils";
@@ -37,13 +36,17 @@ const DisplayMap: React.FC<DisplayMapProps> = ({ fileInfo }) => {
             }
             
         }else{
-            return (
-                <>
-                <MapContainer center={[51.505, -0.09]} zoom={10} style={{width:'100vw',height:'900px'}}>
-                    <TileLayer url='https://tile.openstreetmap.org/{z}/{x}/{y}.png' attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'/>
-                </MapContainer>
-                </>
-            )
+            if(fileInfo.fileContent){
+                let geoJSON = fileInfo.fileContent;
+                return (
+                    <>
+                    <MapContainer center={[23.6978, 120.9605]} zoom={10} style={{width:'100vw',height:'900px'}}>
+                        <TileLayer url='https://tile.openstreetmap.org/{z}/{x}/{y}.png' attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'/>
+                        <GeoJSON data={JSON.parse(geoJSON)}/>
+                    </MapContainer>
+                    </>
+                )
+            }
         }
     }
 
