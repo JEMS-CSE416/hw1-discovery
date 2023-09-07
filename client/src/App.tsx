@@ -4,26 +4,25 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import Canvas from "./components/Canvas";
 import Header from "./components/Header";
+import { FileInfo, initialFileInfo } from "./utils/global_utils";
 
 function App() {
-  const [fileType, setFileType] = useState<string>("");
-  const [fileContent, setFileContent] = useState<string>();
-
-  // useEffect(() => {
-  //   console.log("fileContent: \n" + JSON.stringify(fileContent));
-  // }, [fileContent, fileType]);
+  const [fileInfo, setFileInfo] = useState<FileInfo>(initialFileInfo);
 
   const handleFileUpload = (file: string, content: string) => {
-    setFileType(file)
-    setFileContent(content);
+    // Create a new object with the updated values and set it as the new state
+    setFileInfo({
+      ...fileInfo, // Spread the current state to retain any other properties
+      fileType: file,
+      fileContent: content
+    });
   };
 
   return (
     <div className="App">
-      <Header onFileUpload={handleFileUpload} />
+      <Header onFileUploadSetInfo={handleFileUpload} />
       <Canvas 
-        fileType={fileType}
-        fileContent={fileContent} />
+        fileInfo={fileInfo}/>
     </div>
   );
 }

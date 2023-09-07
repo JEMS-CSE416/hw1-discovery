@@ -7,7 +7,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import jemsLogo from "../JEMS.svg";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { geoJsonConvert } from "../utils/geojson-convert";
+import { geoJsonConvert, readFileContent, handleKml} from "../utils/geojson-convert";
 
 const style = {
   position: "absolute" as "absolute",
@@ -23,9 +23,9 @@ const style = {
 };
 
 interface HeaderProps {
-  onFileUpload: (file: string, content: string) => void;
+  onFileUploadSetInfo: (file: string, content: string) => void;
 }
-const Header: React.FC<HeaderProps> = ({ onFileUpload }) => {
+const Header: React.FC<HeaderProps> = ({ onFileUploadSetInfo }) => {
   const [openFileModal, setOpenFileModal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
 
@@ -36,30 +36,6 @@ const Header: React.FC<HeaderProps> = ({ onFileUpload }) => {
   const handleCloseFileModal = () => {
     setOpenFileModal(false);
   };
-
-  function readFileContent(file: File): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-
-      // read the file as text
-      reader.readAsText(file);
-
-      reader.onload = (event) => {
-        if (event.target) {
-          const fileContent = event.target.result as string;
-          // indicates that the asynch file reading is completed & provides fileContent as Promise result
-          resolve(fileContent);
-        }
-      };
-      
-      // sets up handler when error while reading
-      reader.onerror = (event) => {
-        // reject Promise with error
-        reject(new Error('Error reading file: ' + event.target?.error));
-      };
-      
-    });
-  }
 
   // Gets file uploaded by user with the Fetch API
   const handleUpload = async () => {
@@ -72,17 +48,12 @@ const Header: React.FC<HeaderProps> = ({ onFileUpload }) => {
         let fileSuffix = file.name.split('.').slice(-1)[0]; 
 
         if(fileSuffix === "kml"){
-          // kml file
-          console.log("KML TIME");
-          console.log(file)
-          let kmlText = await readFileContent(file);
-          console.log(kmlText);
-          onFileUpload("kml", kmlText);
+          const geojson = await handleKml(file);
+          console.log(geojson);
+          onFileUploadSetInfo("kml", JSON.stringify(geojson));
         }else{
-          const convertedFileInfo = geoJsonConvert(file);
-          console.log(convertedFileInfo.fileType);
-          console.log(convertedFileInfo.fileContent);
-          onFileUpload(convertedFileInfo.fileType, convertedFileInfo.fileContent);
+          const geojson = await geoJsonConvert(file);
+          onFileUploadSetInfo(fileSuffix, JSON.stringify(geojson));
         }
         
       } catch (error) {
