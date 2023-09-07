@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({ onFileUploadSetInfo }) => {
         if(fileSuffix === "kml"){
           const geojson = await handleKml(file);
           console.log(geojson);
-          onFileUploadSetInfo("kml", JSON.stringify(geojson));
+          onFileUploadSetInfo("json", JSON.stringify(geojson));
         }else{
           const geojson = await geoJsonConvert(file);
           onFileUploadSetInfo(fileSuffix, JSON.stringify(geojson));
