@@ -2,6 +2,7 @@ import { read } from "shapefile";
 import { GeoJSON } from "geojson";
 import * as fs from 'fs';
 import * as toGeoJSON from '@tmcw/togeojson';
+import JSZip from "jszip";
 
 /*
   * Exported function that with convert specified file types into a
@@ -82,10 +83,30 @@ export async function handleKml(file: File): Promise<any> {
   }
 }
 
-async function handleZip(file: File): Promise<GeoJSON> {
-  console.log("ERROR: ZIP UNHANDLED/UNDELETED");
-  console.log("ERROR: ZIP UNHANDLED/UNDELETED");
-  console.log("ERROR: ZIP UNHANDLED/UNDELETED");
-  console.log("ERROR: ZIP UNHANDLED/UNDELETED");
-  throw new Error("ERROR: ZIP UNHANDLED/UNDELETED");
+export async function handleZip(file: File): Promise<GeoJSON> {
+  try {
+    // loading zip
+    let zip = await JSZip.loadAsync(file);
+
+    // gets the cleaned name of the simplest shp file
+    let firstAlphabeticalShpFileName = Object.keys(zip.files)
+      .filter( // filter out shp files
+        (fileName) => fileName.split('.').slice(-1)[0] === "shp"
+      ).map( // remove .shp from name
+        (fileName) => fileName.split('.').slice(0, -1).join('.')
+      ).sort( // sort by alphabetical order
+        (fileA, fileB) => fileA.localeCompare(fileB)
+      )[0];
+
+    // preps the alphabetically first shp and dbf file for display
+    let shp = zip.files[ firstAlphabeticalShpFileName + ".shp"].async("uint8array");
+    let dbf = zip.files[ firstAlphabeticalShpFileName + ".dbf"].async("uint8array");
+
+    // combines the shp file and dbf file together
+    return await read(await shp, await dbf); // read is from the shapefile library
+
+  } catch (error) {
+    console.error('Error handling ZIP:', error);
+    throw error;
+  }
 }
