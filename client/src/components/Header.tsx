@@ -7,7 +7,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import jemsLogo from "../JEMS.svg";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { geoJsonConvert, readFileContent, handleKml} from "../utils/geojson-convert";
+import { geoJsonConvert, readFileContent, handleKml, handleZip} from "../utils/geojson-convert";
 
 const style = {
   position: "absolute" as "absolute",
@@ -49,6 +49,10 @@ const Header: React.FC<HeaderProps> = ({ onFileUploadSetInfo }) => {
 
         if(fileSuffix === "kml"){
           const geojson = await handleKml(file);
+          console.log(geojson);
+          onFileUploadSetInfo("json", JSON.stringify(geojson));
+        } else if(fileSuffix === "zip"){
+          const geojson = await handleZip(file);
           console.log(geojson);
           onFileUploadSetInfo("json", JSON.stringify(geojson));
         }else{
