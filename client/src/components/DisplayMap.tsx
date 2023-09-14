@@ -52,7 +52,9 @@ const DisplayMap: React.FC<DisplayMapProps> = ({ fileInfo }) => {
           let name =
             typeof feature.properties.NAME_0 !== "undefined"
               ? feature.properties.NAME_0
-              : feature.properties.name;
+              : typeof feature.properties.name !== "undefined"
+              ? feature.properties.name
+              : feature.properties.NAME;
           return `<div><p>${name}</p></div>`;
         };
 
