@@ -48,6 +48,9 @@ const DisplayMap: React.FC<DisplayMapProps> = ({ fileInfo }) => {
         // Retrieves country name of geoJSON clicked.
         // In the future more metadata can be added, but I think name suffices for this hw
         const createPopup = (feature: Feature<Geometry, any>) => {
+          if(feature === undefined || feature.properties === undefined)
+            return `<div>undefined</div>`
+
           console.log("inside popup: " + JSON.stringify(feature));
           let name =
             typeof feature.properties.NAME_0 !== "undefined"
